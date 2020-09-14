@@ -8,7 +8,6 @@
 
     var myConnector = tableau.makeConnector();
     tableau.registerConnector(myConnector);
-
     function download(url, fileName) {
       var xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);
@@ -29,6 +28,24 @@
           };
         }
       };
+        getTableau = function() { 
+            return parent.parent.tableau; 
+        } 
+
+        getCurrentViz = function() { 
+                        return getTableau().VizManager.getVizs()[0]; 
+        } 
+
+        getCurrentWorkbook = function() { 
+                        return getCurrentViz().getWorkbook(); 
+        } 
+
+        function initViz() { 
+                        tableau = getTableau(); 
+                        workbook = getCurrentWorkbook(); 
+                        viz = getCurrentViz(); 
+        } 
+
 
       xhr.send();
     }

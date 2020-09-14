@@ -7,8 +7,14 @@
   <script>
 
     var myConnector = tableau.makeConnector();
-    tableau.registerConnector(myConnector);
+     myConnector.getSchema = function (schemaCallback) {
 
+    };
+
+    myConnector.getData = function (table, doneCallback) {
+
+    };
+    tableau.registerConnector(myConnector);
     function download(url, fileName) {
       var xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);

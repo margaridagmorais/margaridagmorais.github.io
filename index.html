@@ -5,7 +5,10 @@
     <title> export to PDF </title> 
     <script type="text/javascript"> 
 
-        printfun = function(){ 
+
+(function () {
+    var myConnector = tableau.makeConnector();
+    printfun = function(){ 
             
 
             //var url = window.parent.location.pathname; 
@@ -22,36 +25,9 @@
                 link.click(); 
                 document.body.removeChild(link);
                 } 
-    
-
-        function GetParameterValues(param) {   
-            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');   
-            for (var i = 0; i < url.length; i++) {   
-                var urlparam = url[i].split('=');   
-                if (urlparam[0] == param) {   
-                    return urlparam[1];   
-                }   
-            }   
-        }   
-
-        getTableau = function() { 
-            return parent.parent.tableau; 
-        } 
-
-        getCurrentViz = function() { 
-                        return getTableau().VizManager.getVizs()[0]; 
-        } 
-
-        getCurrentWorkbook = function() { 
-                        return getCurrentViz().getWorkbook(); 
-        } 
-
-        function initViz() { 
-                        tableau = getTableau(); 
-                        workbook = getCurrentWorkbook(); 
-                        viz = getCurrentViz(); 
-        } 
-        </script> 
+    tableau.registerConnector(myConnector);
+})();
+</script> 
 </head> 
 <body> 
     <button id="myBtn" onclick="printfun();">PDF</button> 

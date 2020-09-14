@@ -6,32 +6,75 @@
     <script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js" type="text/javascript"></script>
     <script type="text/javascript"> 
 
-    myConnector.init = function(initCallback) {
-    initCallback();
-    tableau.submit();
-    };
+        printfun = function(){ 
 
-    printfun = function(){ 
-            
-
-            //var url = window.parent.location.pathname; 
-        
-            var srcurl = 'https://tableau.hadoop.brisa.pt/#/site/BOM/views/TrfegoSemanal_v2/BRISARelatrioSemanal.pdf';
-
-            
-                var link = document.createElement("a"); 
-                // document.body.appendChild(link);
-                // link.href = (window.URL || window.webkitURL).createObjectURL(req.response);
-                link.href = srcurl;
-                link.download= 'Relatorio_Semanal'; 
-                document.body.appendChild(link);
-                link.click(); 
-                document.body.removeChild(link);
+            var url = window.parent.location.pathname; 
+            var paramval = GetParameterValues('id'); 
+                if(paramval){ 
+                    var srcurl = window.parent.location.protocol + '//' + window.parent.location.hostname + paramval + '.pdf?'; 
+                    } 
+                else{ 
+                    var srcurl = window.parent.location.protocol + '//' + window.parent.location.hostname + window.parent.location.pathname + '.pdf?'; 
                 } 
-    tableau.registerConnector(myConnector);
-</script> 
+              var req = new XMLHttpRequest(); 
+              req.open("GET", srcurl, true); 
+              req.responseType = "blob"; 
+              req.onload = function (event) { 
+                var blob = req.response; 
+                var link = document.createElement("a"); 
+                link.href = window.URL.createObjectURL(blob); 
+                link.download = "new" + new Date() + ".pdf"; 
+                if(document.createEvent){ 
+                    if(navigator.userAgent.indexOf("MSIE") !== -1 || navigator.appVersion.indexOf("Trident/") > 0){ // IE 
+                        console.log("IE type browser detected") 
+                        window.navigator.msSaveBlob(blob, "new" + new Date() + ".pdf"; 
+                    } else{ // FF, Chrome 
+                        console.log("Fire fox or Chrome detected"); 
+                        var event = document.createEvent("MouseEvents"); 
+                        event.initEvent("click", true, true); 
+                        link.dispatchEvent(event); 
+                    } 
+                }else if(document.createEventObject){ // no idea of browser type 
+                    var evObj = document.createEventObject(); 
+                    link.fireEvent("onclick", evObj); 
+                }else { // For any case 
+                    link.click(); 
+                } 
+
+                } 
+            req.send(); 
+        } 
+
+        function GetParameterValues(param) {   
+            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');   
+            for (var i = 0; i < url.length; i++) {   
+                var urlparam = url[i].split('=');   
+                if (urlparam[0] == param) {   
+                    return urlparam[1];   
+                }   
+            }   
+        }   
+
+        getTableau = function() { 
+            return parent.parent.tableau; 
+        } 
+
+        getCurrentViz = function() { 
+                        return getTableau().VizManager.getVizs()[0]; 
+        } 
+
+        getCurrentWorkbook = function() { 
+                        return getCurrentViz().getWorkbook(); 
+        } 
+
+        function initViz() { 
+                        tableau = getTableau(); 
+                        workbook = getCurrentWorkbook(); 
+                        viz = getCurrentViz(); 
+        } 
+        </script> 
 </head> 
 <body> 
-    <button id="myBtn" onclick="printfun();">PDF</button> 
+    <button id="myBtn" onclick="printfun();">print</button> 
 </body> 
 </html>

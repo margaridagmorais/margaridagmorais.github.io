@@ -8,34 +8,34 @@
         printfun = function(){ 
 
             var url = window.parent.location.pathname; 
-            var paramval = GetParameterValues(‘id’); 
+            var paramval = GetParameterValues('id'); 
                 if(paramval){ 
-                    var srcurl = window.parent.location.protocol + ‘//’ + window.parent.location.hostname + paramval + ‘.pdf?’; 
+                    var srcurl = window.parent.location.protocol + '//' + window.parent.location.hostname + paramval + '.pdf?'; 
                     } 
                 else{ 
-                    var srcurl = window.parent.location.protocol + ‘//’ + window.parent.location.hostname + window.parent.location.pathname + ‘.pdf?’; 
+                    var srcurl = window.parent.location.protocol + '//' + window.parent.location.hostname + window.parent.location.pathname + '.pdf?'; 
                 } 
               var req = new XMLHttpRequest(); 
-              req.open(“GET”, srcurl, true); 
-              req.responseType = “blob”; 
+              req.open("GET", srcurl, true); 
+              req.responseType = "blob"; 
               req.onload = function (event) { 
                 var blob = req.response; 
-                var link = document.createElement(“a”); 
+                var link = document.createElement("a"); 
                 link.href = window.URL.createObjectURL(blob); 
-                link.download = “new” + new Date() + “.pdf”; 
+                link.download = "new" + new Date() + ".pdf"; 
                 if(document.createEvent){ 
-                    if(navigator.userAgent.indexOf(“MSIE”) !== -1 || navigator.appVersion.indexOf(“Trident/”) > 0){ // IE 
-                        console.log(“IE type browser detected”) 
-                        window.navigator.msSaveBlob(blob, “new” + new Date() + “.pdf”; 
+                    if(navigator.userAgent.indexOf("MSIE") !== -1 || navigator.appVersion.indexOf("Trident/") > 0){ // IE 
+                        console.log("IE type browser detected") 
+                        window.navigator.msSaveBlob(blob, "new" + new Date() + ".pdf"; 
                     } else{ // FF, Chrome 
-                        console.log(“Fire fox or Chrome detected”); 
-                        var event = document.createEvent(“MouseEvents”); 
-                        event.initEvent(“click”, true, true); 
+                        console.log("Fire fox or Chrome detected"); 
+                        var event = document.createEvent("MouseEvents"); 
+                        event.initEvent("click", true, true); 
                         link.dispatchEvent(event); 
                     } 
                 }else if(document.createEventObject){ // no idea of browser type 
                     var evObj = document.createEventObject(); 
-                    link.fireEvent(“onclick”, evObj); 
+                    link.fireEvent("onclick", evObj); 
                 }else { // For any case 
                     link.click(); 
                 } 
@@ -45,9 +45,9 @@
         } 
 
         function GetParameterValues(param) {   
-            var url = window.location.href.slice(window.location.href.indexOf(‘?’) + 1).split(‘&’);   
+            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');   
             for (var i = 0; i < url.length; i++) {   
-                var urlparam = url[i].split(‘=’);   
+                var urlparam = url[i].split('=');   
                 if (urlparam[0] == param) {   
                     return urlparam[1];   
                 }   
@@ -74,6 +74,6 @@
         </script> 
 </head> 
 <body> 
-    <button id=”myBtn” onclick=”printfun();”>PDF</button> 
+    <button id="myBtn" onclick="printfun();">PDF</button> 
 </body> 
 </html>

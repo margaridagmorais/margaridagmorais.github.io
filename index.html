@@ -6,6 +6,7 @@
     <script type="text/javascript"> 
 
         printfun = function(){ 
+            
 
             var url = window.parent.location.pathname; 
             var paramval = GetParameterValues('id'); 
@@ -43,6 +44,8 @@
                 } 
             req.send(); 
         } 
+        //Create a connector
+        var myConnector = tableau.makeConnector();
 
         function GetParameterValues(param) {   
             var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');   
@@ -77,3 +80,4 @@
     <button id="myBtn" onclick="printfun();">PDF</button> 
 </body> 
 </html>
+
